@@ -59,7 +59,7 @@ initDatabase();
 
 
 
-
+//nunu
 function checkEmailForPayment(orderId, expectedAmount) {
     return new Promise((resolve, reject) => {
       const imap = new Imap(imapConfig);
@@ -85,39 +85,39 @@ function checkEmailForPayment(orderId, expectedAmount) {
   
             if (results.length === 0) {
               console.log(`No emails found with $${expectedAmount} in the subject`);
-              console.log(expectedAmount);
               imap.end();
               return resolve(false);
             }
   
             console.log(`Found ${results.length} email(s) with $${expectedAmount} in the subject`);
   
+            const emailPromises = [];
+  
             const f = imap.fetch(results, fetchOptions);
             f.on('message', (msg) => {
-              msg.on('body', (stream) => {
-                simpleParser(stream, (parseErr, parsed) => {
-                  if (parseErr) {
-                    console.error('Error parsing email:', parseErr);
-                    return;
-                  }
+              const emailPromise = new Promise((resolveEmail) => {
+                msg.on('body', (stream) => {
+                  simpleParser(stream, (parseErr, parsed) => {
+                    if (parseErr) {
+                      console.error('Error parsing email:', parseErr);
+                      resolveEmail(false);
+                      return;
+                    }
   
-                  console.log('Parsed email subject:', parsed.subject);
-                  console.log('Parsed email date:', parsed.date);
+                    console.log('Parsed email subject:', parsed.subject);
+                    console.log('Parsed email date:', parsed.date);
   
-                  // Check if the email is recent (within the last hour)
-                  const emailDate = new Date(parsed.date);
-                  const now = new Date();
-                  const timeDifference = now - emailDate;
-                  const oneHour =  60 * 1000; // milliseconds
+                    // Check if the email is recent (within the last 20 seconds)
+                    const emailDate = new Date(parsed.date);
+                    const now = new Date();
+                    const timeDifference = now - emailDate;
+                    const twentySeconds = 6000 * 1000; // milliseconds
   
-                  if (timeDifference <= oneHour) {
-                    console.log('Recent email found with matching amount');
-                    resolve(true);
-                  } else {
-                    console.log('Matching email found, but it\'s older than one hour');
-                  }
+                    resolveEmail(timeDifference <= twentySeconds);
+                  });
                 });
               });
+              emailPromises.push(emailPromise);
             });
   
             f.once('error', (fetchErr) => {
@@ -127,9 +127,13 @@ function checkEmailForPayment(orderId, expectedAmount) {
             });
   
             f.once('end', () => {
-              console.log('Finished checking emails');
-              imap.end();
-              resolve(false);
+              console.log('Finished fetching emails');
+              Promise.all(emailPromises).then((results) => {
+                imap.end();
+                const foundValidEmail = results.some(result => result === true);
+                console.log('Email confirmation result:', foundValidEmail);
+                resolve(foundValidEmail);
+              });
             });
           });
         });
@@ -148,6 +152,44 @@ function checkEmailForPayment(orderId, expectedAmount) {
     });
   }
 
+  function executeSeleniumScript(orderId) {
+    return new Promise((resolve, reject) => {
+      const sideFilePath = path.join(__dirname, 'tacodrive.side');
+      const command = `selenium-side-runner -c "browserName=chrome" ${sideFilePath} --params.orderId="${orderId}"`;
+  
+      exec(command, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`Selenium execution error: ${error}`);
+          return reject(error);
+        }
+        console.log(`Selenium stdout: ${stdout}`);
+        console.error(`Selenium stderr: ${stderr}`);
+        resolve(true);
+      });
+    });
+  }
+  
+  async function executeSeleniumScript(orderItems) {
+    const sideFilePath = path.join(__dirname, 'tacodrive.side');
+    const baseCommand = `selenium-side-runner -c "browserName=chrome goog:chromeOptions.args=[--headless,--no-sandbox,--disable-dev-shm-usage]" ${sideFilePath}`;
+  
+    for (const item of orderItems) {
+      const command = `${baseCommand} --params.itemUrl="${item.url}"`;
+      
+      try {
+        console.log(`Executing Selenium command for ${item.name}: ${command}`);
+        const { stdout, stderr } = await exec(command);
+        console.log(`Selenium stdout: ${stdout}`);
+        if (stderr) console.error(`Selenium stderr: ${stderr}`);
+      } catch (error) {
+        console.error(`Error executing Selenium for ${item.name}:`, error);
+        throw error;
+      }
+    }
+    
+    return true;
+  }
+  //putki
   app.post('/api/confirm-payment', async (req, res) => {
     const { orderId } = req.body;
   
@@ -158,17 +200,30 @@ function checkEmailForPayment(orderId, expectedAmount) {
       }
   
       const order = rows[0];
+      const orderItems = JSON.parse(order.items);
   
       try {
         console.log(`Checking email for payment confirmation of $${order.total} for order ${orderId}...`);
         const emailConfirmation = await checkEmailForPayment(orderId, order.total);
-        console.log('Email confirmation result:', emailConfirmation);
+        console.log('Final email confirmation result:', emailConfirmation);
   
         if (emailConfirmation) {
           // Payment confirmed, update order status
           await connection.execute('UPDATE orders SET status = ? WHERE id = ?', ['paid', orderId]);
-          res.json({ message: 'Payment confirmed successfully' });
+  
+          // Execute Selenium script
+          console.log('Executing Selenium script for order automation...');
+          try {
+            await executeSeleniumScript(orderItems);
+            await connection.execute('UPDATE orders SET status = ? WHERE id = ?', ['completed', orderId]);
+            res.json({ message: 'Payment confirmed and order automated successfully' });
+          } catch (seleniumError) {
+            console.error('Error executing Selenium script:', seleniumError);
+            await connection.execute('UPDATE orders SET status = ? WHERE id = ?', ['payment_confirmed_automation_failed', orderId]);
+            res.status(500).json({ message: 'Payment confirmed but order automation failed', error: seleniumError.message });
+          }
         } else {
+          console.log('Payment not confirmed. No matching recent emails found.');
           res.status(402).json({ message: 'Payment not confirmed. Please check your payment and try again.' });
         }
       } catch (emailError) {
@@ -181,24 +236,23 @@ function checkEmailForPayment(orderId, expectedAmount) {
     }
   });
 
-
-  //ordersave
+  //order save bitchesss
   app.post('/api/save-order', async (req, res) => {
-      const { order, total } = req.body;
-      const orderId = Date.now().toString();
-      const status = 'pending';
-    
-      try {
-        await connection.execute(
-          'INSERT INTO orders (id, items, total, status) VALUES (?, ?, ?, ?)',
-          [orderId, JSON.stringify(order), total, status]
-        );
-        res.json({ orderId, message: 'Order saved successfully' });
-      } catch (error) {
-        console.error('Error saving order:', error);
-        res.status(500).json({ message: 'Error saving order' });
-      }
-    });
+    const { order, total } = req.body;
+    const orderId = Date.now().toString();
+    const status = 'pending';
+  
+    try {
+      await connection.execute(
+        'INSERT INTO orders (id, items, total, status) VALUES (?, ?, ?, ?)',
+        [orderId, JSON.stringify(order), total, status]
+      );
+      res.json({ orderId, message: 'Order saved successfully' });
+    } catch (error) {
+      console.error('Error saving order:', error);
+      res.status(500).json({ message: 'Error saving order' });
+    }
+  });
 
 app.listen(3000, '0.0.0.0', () => {
   console.log('Server running on http://0.0.0.0:3000');
