@@ -1,0 +1,133 @@
+[{
+    "id": "b2ba1723-605c-4bba-b713-eee05c09905d",
+    "comment": "",
+    "command": "click",
+    "target": "css=.styles_find-store-container__klA0U:nth-child(2) .styles_store-input__ExBqO",
+    "targets": [
+      ["css=.styles_find-store-container__klA0U:nth-child(2) .styles_store-input__ExBqO", "css:finder"],
+      ["xpath=(//input[@value=''])[2]", "xpath:attributes"],
+      ["xpath=//div[@id='scrollContainer']/main/div[2]/div[2]/div/form/input", "xpath:idRelative"],
+      ["xpath=//div[2]/div/form/input", "xpath:position"]
+    ],
+    "value": ""
+  }, {
+    "id": "924e9892-d201-4e2d-9633-4648512b683c",
+    "comment": "",
+    "command": "type",
+    "target": "css=.styles_find-store-container__klA0U:nth-child(2) .styles_store-input__ExBqO",
+    "targets": [
+      ["css=.styles_find-store-container__klA0U:nth-child(2) .styles_store-input__ExBqO", "css:finder"],
+      ["xpath=(//input[@value='atlanta'])[2]", "xpath:attributes"],
+      ["xpath=//div[@id='scrollContainer']/main/div[2]/div[2]/div/form/input", "xpath:idRelative"],
+      ["xpath=//div[2]/div/form/input", "xpath:position"]
+    ],
+    "value": "atlanta"
+  }, {
+    "id": "9367aa30-e0c3-4e1f-bf67-4c6b48ea0ba6",
+    "comment": "",
+    "command": "sendKeys",
+    "target": "css=.styles_find-store-container__klA0U:nth-child(2) .styles_store-input__ExBqO",
+    "targets": [
+      ["css=.styles_find-store-container__klA0U:nth-child(2) .styles_store-input__ExBqO", "css:finder"],
+      ["xpath=(//input[@value='atlanta'])[2]", "xpath:attributes"],
+      ["xpath=//div[@id='scrollContainer']/main/div[2]/div[2]/div/form/input", "xpath:idRelative"],
+      ["xpath=//div[2]/div/form/input", "xpath:position"]
+    ],
+    "value": "${KEY_ENTER}"
+  }, {
+    "id": "d59e1015-ed27-4635-aac5-da9d2010b5f9",
+    "comment": "",
+    "command": "mouseOver",
+    "target": "css=.styles_store-results-container__5zK8Z:nth-child(3) .styles_border__fmOK6:nth-child(1) .styles_button__ZorvE",
+    "targets": [
+      ["css=.styles_store-results-container__5zK8Z:nth-child(3) .styles_border__fmOK6:nth-child(1) .styles_button__ZorvE", "css:finder"],
+      ["xpath=//div[@id='scrollContainer']/main/div[2]/div[2]/div[2]/div/div/div[2]/button", "xpath:idRelative"],
+      ["xpath=//div[2]/div[2]/div[2]/div/div/div[2]/button", "xpath:position"]
+    ],
+    "value": ""
+  }, {
+    "id": "ef91fe09-8bf9-4c06-aada-d4453dd05979",
+    "comment": "",
+    "command": "mouseOut",
+    "target": "css=.styles_store-results-container__5zK8Z:nth-child(3) .styles_border__fmOK6:nth-child(1) .styles_button__ZorvE",
+    "targets": [
+      ["css=.styles_store-results-container__5zK8Z:nth-child(3) .styles_border__fmOK6:nth-child(1) .styles_button__ZorvE", "css:finder"],
+      ["xpath=//div[@id='scrollContainer']/main/div[2]/div[2]/div[2]/div/div/div[2]/button", "xpath:idRelative"],
+      ["xpath=//div[2]/div[2]/div[2]/div/div/div[2]/button", "xpath:position"]
+    ],
+    "value": ""
+  }, {
+    "id": "77856ae0-0602-433d-95b3-d1aa84a2a34b",
+    "comment": "",
+    "command": "runScript",
+    "target": "window.scrollTo(0,0)",
+    "targets": [],
+    "value": ""
+  }, {
+    "id": "f8d9a884-2586-472f-bc51-e55d96d58e2e",
+    "comment": "",
+    "command": "click",
+    "target": "css=.styles_store-results-container__5zK8Z:nth-child(3) .styles_border__fmOK6:nth-child(3) .styles_button__ZorvE",
+    "targets": [
+      ["css=.styles_store-results-container__5zK8Z:nth-child(3) .styles_border__fmOK6:nth-child(3) .styles_button__ZorvE", "css:finder"],
+      ["xpath=//div[@id='scrollContainer']/main/div[2]/div[2]/div[2]/div/div[3]/div[2]/button", "xpath:idRelative"],
+      ["xpath=//div[2]/div[2]/div[2]/div/div[3]/div[2]/button", "xpath:position"]
+    ],
+    "value": ""
+  }, {
+    "id": "9e55c66b-1de7-4798-b330-63a40a2a27cb",
+    "comment": "",
+    "command": "click",
+    "target": "css=.styles_find-store-container__klA0U .styles_border__fmOK6",
+    "targets": [
+      ["css=.styles_find-store-container__klA0U .styles_border__fmOK6", "css:finder"],
+      ["xpath=//div[@id='scrollContainer']/main/div[2]/div[2]/div[2]/button", "xpath:idRelative"],
+      ["xpath=//div[2]/div[2]/div[2]/button", "xpath:position"]
+    ],
+    "value": ""
+  }, {
+    "id": "4f584e57-32b2-404b-9ccd-5cfc7b3bbe4f",
+    "comment": "",
+    "command": "mouseOver",
+    "target": "css=.styles_find-store-container__klA0U .styles_border__fmOK6",
+    "targets": [
+      ["css=.styles_find-store-container__klA0U .styles_border__fmOK6", "css:finder"],
+      ["xpath=//div[@id='scrollContainer']/main/div[2]/div[2]/div[2]/button", "xpath:idRelative"],
+      ["xpath=//div[2]/div[2]/div[2]/button", "xpath:position"]
+    ],
+    "value": ""
+  }, {
+    "id": "12f10871-a7ca-4f7b-9db7-541f19e0004d",
+    "comment": "",
+    "command": "click",
+    "target": "css=.styles_find-store-container__klA0U .styles_border__fmOK6:nth-child(1)",
+    "targets": [
+      ["css=.styles_find-store-container__klA0U .styles_border__fmOK6:nth-child(1)", "css:finder"],
+      ["xpath=//div[@id='scrollContainer']/main/div[2]/div[2]/div[2]/div", "xpath:idRelative"],
+      ["xpath=//div[2]/div[2]/div[2]/div", "xpath:position"]
+    ],
+    "value": ""
+  }, {
+    "id": "c00a27b0-ed14-42cb-9911-348129211f53",
+    "comment": "",
+    "command": "click",
+    "target": "linkText=Finish",
+    "targets": [
+      ["linkText=Finish", "linkText"],
+      ["css=.styles_find-store-container__klA0U .styles_link-button__shBZT", "css:finder"],
+      ["xpath=(//a[contains(text(),'Finish')])[2]", "xpath:link"],
+      ["xpath=//div[@id='scrollContainer']/main/div[2]/div[2]/div/a", "xpath:idRelative"],
+      ["xpath=(//a[contains(@href, '/food?store=032152')])[2]", "xpath:href"],
+      ["xpath=//main/div[2]/div[2]/div/a", "xpath:position"]
+    ],
+    "value": ""
+  }, {
+    "id": "b129b3bd-240a-4034-b893-a758c6091cf9",
+    "comment": "",
+    "command": "click",
+    "target": "css=.full-toolbar_cart-container__dxM83:nth-child(6) .full-toolbar_icon__LE4om",
+    "targets": [
+      ["css=.full-toolbar_cart-container__dxM83:nth-child(6) .full-toolbar_icon__LE4om", "css:finder"]
+    ],
+    "value": ""
+  }]

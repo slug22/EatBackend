@@ -1,0 +1,41 @@
+
+    [{
+      "id": "14c8f7fd-f856-43d0-8bf0-55041c4266bc",
+      "comment": "",
+      "command": "open",
+      "target": "{{url}}",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "cc7cf89c-9a1d-41b1-b193-a4b2d981e446",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1522x800",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5f153b2b-4f86-4ff5-9802-b1c4be661dc4",
+      "comment": "",
+      "command": "click",
+      "target": "css=.styles_button__ZorvE:nth-child(3)",
+      "targets": [
+        ["css=.styles_button__ZorvE:nth-child(3)", "css:finder"],
+        ["xpath=//div[@id='scrollContainer']/main/div/section/div/div[3]/button", "xpath:idRelative"],
+        ["xpath=//div[3]/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "14ef865f-666a-4e71-8db1-c55fbd9647c0",
+      "comment": "",
+      "command": "click",
+      "target": "css=.styles_pickup-store__EYEk7:nth-child(1) div > span",
+      "targets": [
+        ["css=.styles_pickup-store__EYEk7:nth-child(1) div > span", "css:finder"],
+        ["xpath=//div[@id='__next']/div/div/div[2]/header/div/div[2]/div/div/a/div/span", "xpath:idRelative"],
+        ["xpath=//a/div/span", "xpath:position"],
+        ["xpath=//span[contains(.,'Suite 4 930 Spring Street, Atlanta, GA 30309 Change')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+
+

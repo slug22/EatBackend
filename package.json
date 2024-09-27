@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+   
+     "test": "jest",
+  "test:detect-handles": "jest --detectOpenHandles"
   },
   "keywords": [],
   "author": "",
@@ -13,9 +15,16 @@
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "express": "^4.21.0",
+    "fs": "^0.0.1-security",
     "mailparser": "^3.7.1",
     "mysql2": "^3.11.3",
     "node-imap": "^0.9.6",
     "selenium-side-runner": "^4.0.12"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.4",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0"
   }
 }
